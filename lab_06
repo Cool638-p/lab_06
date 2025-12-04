@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Неоновий годинник — працює на 100%</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #282828;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .clock {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #470e7c 30%, #780000 100%);
+            box-shadow: 0 0 60px #7d077d, 0 0 100px #1b2698;
+        }
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 4px;
+        }
+        #hour {
+            width: 10px;
+            height: 100px;
+            background: #0fa419;
+            transform: translateX(-50%) rotate(0deg);
+            box-shadow: 0 0 20px #26ff51;
+        }
+        #minute {
+            width: 7px;
+            height: 130px;
+            background: #008282;
+            transform: translateX(-50%) rotate(0deg);
+            box-shadow: 0 0 20px #00d1d1;
+        }
+        #second {
+            width: 3px;
+            height: 150px;
+            background: #97003c;
+            transform: translateX(-50%) rotate(0deg);
+            box-shadow: 0 0 15px #ff3284;
+        }
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd0d0;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px #d9ff00;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock">
+        <div class="hand" id="hour"></div>
+        <div class="hand" id="minute"></div>
+        <div class="hand" id="second"></div>
+        <div class="center"></div>
+    </div>
+
+    <script>
+        const hour   = document.getElementById('hour');
+        const minute = document.getElementById('minute');
+        const second = document.getElementById('second');
+
+        function update() {
+            const now = new Date();
+            const s = now.getSeconds() + now.getMilliseconds()/1000;
+            const m = now.getMinutes() + s/60;
+            const h = (now.getHours()%12) + m/60;
+
+            second.style.transform = `translateX(-50%) rotate(${s * 6}deg)`;
+            minute.style.transform = `translateX(-50%) rotate(${m * 6}deg)`;
+            hour.style.transform   = `translateX(-50%) rotate(${h * 30}deg)`;
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+
+</body>
+</html>
